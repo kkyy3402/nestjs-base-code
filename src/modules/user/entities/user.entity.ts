@@ -6,10 +6,13 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ unique: true }) // username이 고유해야 합니다.
+  username: string;
 
   @Column()
+  hash: string; // 비밀번호의 해시
+
+  @Column({ nullable: true })
   email: string;
 
   @OneToMany(() => MemoEntity, (memo) => memo.user)

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { UserEntity } from '../../user/entities/User.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('tb_memos')
 export class MemoEntity {
