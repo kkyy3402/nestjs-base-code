@@ -16,7 +16,9 @@ import { CreateMemoDto } from './dtos/create-memo.dto';
 import { UpdateMemoDto } from './dtos/update-memo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { printLog } from '../../common/utils/log-util';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('메모') // 이 부분에서 API 그룹의 제목을 설정합니다.
 @Controller('/api/v1/memos')
 export class MemoController {
   constructor(private readonly memoService: MemoService) {}

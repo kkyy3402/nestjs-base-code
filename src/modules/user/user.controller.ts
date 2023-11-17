@@ -12,7 +12,9 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('유저') // 이 부분에서 API 그룹의 제목을 설정합니다.
 @Controller('/api/v1/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
