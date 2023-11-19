@@ -3,6 +3,7 @@ import { UserModule } from './modules/user/user.module';
 import { MemoModule } from './modules/memo/memo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [

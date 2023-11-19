@@ -17,8 +17,8 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
     const newUser = this.userRepository.create(createUserDto);
-    const hash = await bcrypt.hash(newUser.hash, 10);
-    newUser.hash = hash;
+    const hash = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hash;
     const userEntity = await this.userRepository.save(newUser);
     printLog(`userEntity : ${JSON.stringify(userEntity)}`);
     return UserDto.fromEntity(userEntity);
@@ -38,7 +38,11 @@ export class UserService {
     return UserDto.fromEntity(userEntity);
   }
 
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
+  async updateUser(
+    id: number,
+    userId: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserDto> {
     await this.userRepository.update(id, updateUserDto);
     const userEntity = await this.userRepository.findOneBy({
       id: id,
@@ -52,8 +56,7 @@ export class UserService {
 
   async findOneByUsernameAndHash(
     username: string,
-    hash: string,
   ): Promise<UserEntity | undefined> {
-    return await this.userRepository.findOneBy({ username, hash });
+    return await this.userRepository.findOneBy({ username });
   }
 }

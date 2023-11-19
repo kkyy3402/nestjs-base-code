@@ -8,7 +8,7 @@ export class MemoDto {
   static fromEntity(memo: MemoEntity): MemoDto {
     const dto = new MemoDto();
     dto.id = memo.id;
-    dto.content = memo.content;
+    dto.content = memo.contents;
     return dto;
   }
 }

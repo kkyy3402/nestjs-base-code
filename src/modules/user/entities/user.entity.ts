@@ -10,7 +10,7 @@ export class UserEntity {
   username: string;
 
   @Column()
-  hash: string; // 비밀번호의 해시
+  password: string; // 비밀번호의 해시
 
   @Column({ nullable: true })
   email: string;

@@ -7,6 +7,7 @@ import { CreateMemoDto } from './dtos/create-memo.dto';
 import { UserEntity } from '../user/entities/user.entity';
 import { UpdateMemoDto } from './dtos/update-memo.dto';
 import { MemoDto } from './dtos/memo.dto';
+import { ItemNotExistException } from '../../common/exceptions/item-not-exist-exception';
 
 @Injectable()
 export class MemoService {
@@ -18,15 +19,18 @@ export class MemoService {
   ) {}
 
   // 메모 생성
-  async createMemo(createMemoDto: CreateMemoDto): Promise<MemoDto> {
-    const { content, userId } = createMemoDto;
+  async createMemo(
+    userId: number,
+    createMemoDto: CreateMemoDto,
+  ): Promise<MemoDto> {
+    const { contents } = createMemoDto;
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
       throw new UserNotFoundException();
     }
 
     const memo = this.memoRepository.create({
-      content,
+      contents,
       user,
     });
     const memoEntity = await this.memoRepository.save(memo);
@@ -46,7 +50,23 @@ export class MemoService {
   }
 
   // 메모 업데이트
-  async updateMemo(id: number, updateMemoDto: UpdateMemoDto): Promise<MemoDto> {
+  async updateMemo(
+    id: number,
+    updateMemoDto: UpdateMemoDto,
+    userId: number,
+  ): Promise<MemoDto> {
+    const item = await this.memoRepository.findOneBy({ id });
+
+    // 메모가 존재하지 않는 경우, NotFoundException을 발생시킵니다.
+    if (!item) {
+      throw new ItemNotExistException();
+    }
+
+    // 본인이 아닌 경우
+    if (item.user.id !== userId) {
+      throw new ItemNotExistException();
+    }
+
     await this.memoRepository.update(id, updateMemoDto);
     const memoEntity = await this.memoRepository.findOneBy({ id });
     return MemoDto.fromEntity(memoEntity);

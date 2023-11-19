@@ -13,6 +13,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { GetUserId } from '../auth/strategies/get-user-id';
 
 @ApiTags('유저') // 이 부분에서 API 그룹의 제목을 설정합니다.
 @Controller('/api/v1/users')
@@ -38,9 +39,10 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   async updateUser(
     @Param('id') id: number,
+    @GetUserId() userId: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(id, updateUserDto);
+    return this.userService.updateUser(id, userId, updateUserDto);
   }
 
   @Delete(':id')

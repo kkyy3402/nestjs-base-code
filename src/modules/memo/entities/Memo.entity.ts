@@ -7,7 +7,7 @@ export class MemoEntity {
   id: number;
 
   @Column()
-  content: string;
+  contents: string;
 
   @ManyToOne(() => UserEntity, (user) => user.memos)
   user: UserEntity;
