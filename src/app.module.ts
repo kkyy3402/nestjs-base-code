@@ -4,6 +4,7 @@ import { MemoModule } from './modules/memo/memo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './common/strategies/jwt.strategy';
 
 @Module({
   imports: [

@@ -3,7 +3,6 @@ import { MemoController } from './memo.controller';
 import { MemoService } from './memo.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MemoEntity } from './entities/Memo.entity';
-import { JwtStrategy } from '../auth/strategies/jwt.strategies';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Module({

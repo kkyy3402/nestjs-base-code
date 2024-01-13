@@ -14,8 +14,8 @@ import { UpdateMemoDto } from './dtos/update-memo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { printLog } from '../../common/utils/log-util';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/strategies/jwt-auth-guard';
-import { GetUserId } from '../auth/strategies/get-user-id';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { UserIdFromJwt } from '../../common/decorators/user-id-from-jwt';
 
 @ApiTags('메모') // 이 부분에서 API 그룹의 제목을 설정합니다.
 @Controller('/api/v1/memos')
@@ -23,10 +23,10 @@ export class MemoController {
   constructor(private readonly memoService: MemoService) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   async createMemo(
     @Body() createMemoDto: CreateMemoDto,
-    @GetUserId() userId: number,
+    @UserIdFromJwt() userId: number,
   ) {
     return this.memoService.createMemo(userId, createMemoDto);
   }
@@ -47,7 +47,7 @@ export class MemoController {
   @UseGuards(JwtAuthGuard)
   async updateMemo(
     @Param('id') id: number,
-    @GetUserId() userId: number,
+    @UserIdFromJwt() userId: number,
     @Body() updateMemoDto: UpdateMemoDto,
   ) {
     printLog(`userId : ${userId}`);
@@ -56,7 +56,7 @@ export class MemoController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async deleteMemo(@Param('id') id: number, @GetUserId() userId: number) {
+  async deleteMemo(@Param('id') id: number, @UserIdFromJwt() userId: number) {
     await this.memoService.deleteMemo(id);
   }
 }

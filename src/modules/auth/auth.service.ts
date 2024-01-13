@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginUserRequestDto } from './dtos/login-user-request.dto';
 import { LoginUserResponseDto } from './dtos/login-user-response.dto';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found.exception';
 import { printLog } from '../../common/utils/log-util';
+import { JwtPayload } from '../../common/dtos/jwt-payload';
+import { UserDto } from '../user/dtos/user.dto';
+import { TokenStatus } from '../../common/constants';
 
 @Injectable()
 export class AuthService {
@@ -14,25 +17,58 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOneByUsernameAndHash(username);
+  async findOneByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<UserDto> {
+    const user = await this.userService.findOneByEmailAndPassword(email);
 
     printLog(`user : ${JSON.stringify(user)}`);
-    printLog(`pass : ${pass}`);
+    printLog(`pass : ${password}`);
 
-    if (user && bcrypt.compareSync(pass, user.password)) {
-      // const { hash, ...result } = user; // 'hash'를 제거합니다.
-      const { ...result } = user; // 'hash'를 사용하지 않으므로 이렇게 변경합니다.
-      return result;
+    if (user && bcrypt.compareSync(password, user.password)) {
+      return UserDto.fromEntity(user);
     }
     return null;
+  }
+
+  private generateTokens(user: UserDto) {
+    const payload: JwtPayload = { username: user.username, sub: user.id };
+
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: '1s',
+      secret: process.env.JWT_SECRET,
+    });
+
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: '7d',
+      secret: process.env.JWT_SECRET,
+    });
+
+    return { accessToken, refreshToken };
+  }
+
+  async verifyToken(token: string): Promise<TokenStatus> {
+    try {
+      this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+
+      // 토큰이 정상적으로 검증되면 유효한 토큰임을 반환
+      return TokenStatus.Valid;
+    } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        // 토큰의 유효기간이 지난 경우
+        return TokenStatus.Expired;
+      } else {
+        return TokenStatus.Invalid;
+      }
+    }
   }
 
   async login(
     loginUserDto: LoginUserRequestDto,
   ): Promise<LoginUserResponseDto> {
-    const user = await this.validateUser(
-      loginUserDto.username,
+    const user = await this.findOneByEmailAndPassword(
+      loginUserDto.email,
       loginUserDto.password,
     );
 
@@ -40,22 +76,15 @@ export class AuthService {
       throw new UserNotFoundException();
     }
 
-    const payload = { username: user.username, sub: user.userId };
+    // 중복 코드를 사용한 함수 호출
+    const { accessToken, refreshToken } = this.generateTokens(user);
 
-    printLog(`payload : ${JSON.stringify(payload)}`);
+    return LoginUserResponseDto.from(accessToken, refreshToken);
+  }
 
-    // 액세스 토큰 생성
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '60s', // 액세스 토큰의 유효 시간,
-      secret: process.env.JWT_SECRET,
-    });
-
-    // 리프레시 토큰 생성
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: '7d', // 리프레시 토큰은 일반적으로 더 긴 유효 시간을 가집니다.
-      secret: process.env.JWT_SECRET,
-    });
-
+  async refreshToken(user: UserDto): Promise<LoginUserResponseDto> {
+    // 중복 코드를 사용한 함수 호출
+    const { accessToken, refreshToken } = this.generateTokens(user);
     return LoginUserResponseDto.from(accessToken, refreshToken);
   }
 }

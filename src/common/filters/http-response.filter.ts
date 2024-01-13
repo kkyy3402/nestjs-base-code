@@ -25,8 +25,6 @@ export class HttpResponseFilter<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<ApiResponse<T>> {
-    printLog('11231231312312312');
-
     return next
       .handle()
       .pipe(
