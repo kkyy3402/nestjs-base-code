@@ -14,6 +14,7 @@ export const ApiMessages = {
   OPERATION_COMPLETED_SUCCESSFULLY: '작업이 성공적으로 완료되었습니다.',
   PASSWORD_UPDATE_SUCCESS: '비밀번호가 성공적으로 업데이트되었습니다.',
   EMAIL_ALREADY_IN_USE: '이미 사용 중인 이메일입니다.',
+  UNKNOWN: '알 수 없는 에러가 발생하였습니다',
 };
 
 export enum TokenStatus {
@@ -21,3 +22,17 @@ export enum TokenStatus {
   Expired, // 유효기간이 지난 토큰
   Invalid, // 유효하지 않은 토큰
 }
+
+export const roles = {
+  admin: 'Admin',
+  user: 'User',
+  manager: 'Manager',
+};
+
+export const platformTypes = {
+  kakao: 'Kakao',
+  google: 'Google',
+};
+
+export const roleNames: string[] = Object.values(roles);
+export const platformTypeNames: string[] = Object.values(platformTypes);

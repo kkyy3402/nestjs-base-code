@@ -1,9 +1,8 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JwtPayload } from '../../../common/dtos/jwt-payload';
+import { JwtPayload } from '../../../common/interfaces/jwt-payload';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
-import { printLog } from '../../../common/utils/log-util';
 import { AuthService } from '../auth.service';
 import { getIsTokenExpired } from '../../../common/utils/token-util';
 

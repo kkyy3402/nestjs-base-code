@@ -6,9 +6,6 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RefreshJwtGuard } from './guards/refresh-jwt.guard';
 import { UserIdFromJwt } from '../../common/decorators/user-id-from-jwt';
 import { UserService } from '../user/user.service';
-import { UserDto } from '../user/dtos/user.dto';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { printLog } from '../../common/utils/log-util';
 
 @ApiTags('인증')
 @Controller('/api/v1/auth')

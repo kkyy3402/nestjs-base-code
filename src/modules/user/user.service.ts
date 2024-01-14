@@ -5,14 +5,17 @@ import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDto } from './dtos/user.dto';
-import { printLog } from '../../common/utils/log-util';
 import * as bcrypt from 'bcrypt';
+import { RolesEntity } from '../roles/entities/roles.entity';
+import { roles } from '../../common/constants';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    @InjectRepository(RolesEntity)
+    private rolesEntityRepository: Repository<RolesEntity>,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
@@ -21,18 +24,28 @@ export class UserService {
       email: createUserDto.email,
     });
 
+    // 이미 존재하는 유저는 튕겨냄
     if (existingUser) {
-      // 이미 존재하는 경우, BadRequestException을 던짐
       throw new BadRequestException('Email already exists');
     }
-
-    // 이메일이 존재하지 않는 경우, 사용자 생성 및 저장
     const newUser = this.userRepository.create(createUserDto);
-    const hash = await bcrypt.hash(newUser.password, 10);
-    newUser.password = hash;
+
+    // 비번 등록
+    newUser.password = await bcrypt.hash(newUser.password, 10);
+
+    // 유저 역할 부여
+    const userRole = await this.rolesEntityRepository.findOne({
+      where: { roleName: roles.user },
+    });
+
+    if (!userRole) {
+      throw new Error('User role not found');
+    }
+
+    newUser.roles = [userRole];
+
     const userEntity = await this.userRepository.save(newUser);
 
-    printLog(`userEntity : ${JSON.stringify(userEntity)}`);
     return UserDto.fromEntity(userEntity);
   }
 

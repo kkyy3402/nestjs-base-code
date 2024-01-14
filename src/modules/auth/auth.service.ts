@@ -6,7 +6,7 @@ import { LoginUserRequestDto } from './dtos/login-user-request.dto';
 import { LoginUserResponseDto } from './dtos/login-user-response.dto';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found.exception';
 import { printLog } from '../../common/utils/log-util';
-import { JwtPayload } from '../../common/dtos/jwt-payload';
+import { JwtPayload } from '../../common/interfaces/jwt-payload';
 import { UserDto } from '../user/dtos/user.dto';
 import { TokenStatus } from '../../common/constants';
 
@@ -33,14 +33,18 @@ export class AuthService {
   }
 
   private generateTokens(user: UserDto) {
-    const payload: JwtPayload = { username: user.username, sub: user.id };
+    const jwtPayload: JwtPayload = {
+      username: user.username,
+      sub: user.id,
+      roles: user.roles.map((role) => role.roleName),
+    };
 
-    const accessToken = this.jwtService.sign(payload, {
+    const accessToken = this.jwtService.sign(jwtPayload, {
       expiresIn: '1s',
       secret: process.env.JWT_SECRET,
     });
 
-    const refreshToken = this.jwtService.sign(payload, {
+    const refreshToken = this.jwtService.sign(jwtPayload, {
       expiresIn: '7d',
       secret: process.env.JWT_SECRET,
     });
@@ -76,14 +80,12 @@ export class AuthService {
       throw new UserNotFoundException();
     }
 
-    // 중복 코드를 사용한 함수 호출
     const { accessToken, refreshToken } = this.generateTokens(user);
 
     return LoginUserResponseDto.from(accessToken, refreshToken);
   }
 
   async refreshToken(user: UserDto): Promise<LoginUserResponseDto> {
-    // 중복 코드를 사용한 함수 호출
     const { accessToken, refreshToken } = this.generateTokens(user);
     return LoginUserResponseDto.from(accessToken, refreshToken);
   }

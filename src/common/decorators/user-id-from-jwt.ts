@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { JwtPayload } from '../dtos/jwt-payload';
+import { JwtPayload } from '../interfaces/jwt-payload';
 
 // Controller에서 @Request() req라는 파라미터를 만든 후, req.user.sub 이렇게 사용해도 되지만
 // @Request에 대한 의존성이 발생하며, 유지보수성이 낮아지는 단점이 있는 것 같아,

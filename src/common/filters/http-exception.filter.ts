@@ -1,11 +1,11 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
-import { ApiResponse } from '../dtos/api-response.dto';
-import { printLog } from '../utils/log-util';
+import { ApiResponse } from '../interfaces/api-response';
+import { ApiMessages } from '../constants';
 
 /**
  * 모든 HTTP 예외에 대해 표준화된 응답 형식을 제공하는 예외 필터.
@@ -24,8 +24,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const errorMessage =
       typeof exceptionResponse === 'string'
         ? exceptionResponse
-        : (exceptionResponse as any).message ||
-          '알 수 없는 에러가 발생하였습니다.';
+        : (exceptionResponse as any).message || ApiMessages.UNKNOWN;
 
     response.status(status).json(new ApiResponse(status, errorMessage, null));
   }
