@@ -46,5 +46,6 @@ npm run start:prod
 - [x] jwt Guard 작성 (기본, Admin용)
 - [x] 페이징 처리
 - [x] 각 에러별 custom 에러 코드 작성
+- [ ] @Transactional 데코레이터 구현
 - [ ] 소셜 로그인(카카오)
 - [ ] 소셜 로그인(구글)
