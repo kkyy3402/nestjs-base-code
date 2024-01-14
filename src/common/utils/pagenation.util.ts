@@ -1,4 +1,4 @@
-import { PaginationParams } from '../interfaces/pagenation-params';
+import { PaginationParams } from '../interfaces/pagination-params';
 
 export const applyPagination = (
   queryBuilder,

@@ -8,7 +8,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { UpdateMemoDto } from './dtos/update-memo.dto';
 import { MemoDto } from './dtos/memo.dto';
 import { ItemNotExistException } from '../../common/exceptions/item-not-exist-exception';
-import { PaginationParams } from '../../common/interfaces/pagenation-params';
+import { PaginationParams } from '../../common/interfaces/pagination-params';
 import { applyPagination } from '../../common/utils/pagenation.util';
 
 @Injectable()

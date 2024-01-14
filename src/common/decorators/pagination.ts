@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { PaginationParams } from '../interfaces/pagenation-params';
+import { PaginationParams } from '../interfaces/pagination-params';
 
 const DEFAULT_PAGENATION_SIZE = 20;
 

@@ -35,7 +35,11 @@ npm run build
 npm run start:prod
 ```
 
-### TODO
+## NestJS LifeCycle
+
+![NestJS LifeCycle](./assets/images/image1.png)
+
+## TODO
 
 - [x] jwt에서 userId 가져오는 Decorator 작성
 - [x] 공통 ApiResponse json response 주도록 코드 작성

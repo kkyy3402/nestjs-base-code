@@ -8,7 +8,7 @@ import { UserDto } from './dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { RoleEntity } from '../role/entities/role.entity';
 import { roles } from '../../common/constants';
-import { PaginationParams } from '../../common/interfaces/pagenation-params';
+import { PaginationParams } from '../../common/interfaces/pagination-params';
 import { applyPagination } from '../../common/utils/pagenation.util';
 
 @Injectable()

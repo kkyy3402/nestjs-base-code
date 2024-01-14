@@ -15,8 +15,8 @@ import { printLog } from '../../common/utils/log.util';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UserIdFromJwt } from '../../common/decorators/user-id-from-jwt';
-import { Pagination } from '../../common/decorators/pagenation';
-import { PaginationParams } from '../../common/interfaces/pagenation-params';
+import { Pagination } from '../../common/decorators/pagination';
+import { PaginationParams } from '../../common/interfaces/pagination-params';
 import { AdminAuthGuard } from '../../common/guards/admin-auth.guard';
 
 @ApiTags('메모') // 이 부분에서 API 그룹의 제목을 설정합니다.
