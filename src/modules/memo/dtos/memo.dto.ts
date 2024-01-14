@@ -1,4 +1,4 @@
-import { MemoEntity } from '../entities/Memo.entity';
+import { MemoEntity } from '../entities/memo.entity';
 
 export class MemoDto {
   id: number;

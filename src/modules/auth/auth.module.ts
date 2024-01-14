@@ -8,16 +8,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../user/entities/user.entity';
 import { JwtStrategy } from '../../common/strategies/jwt.strategy';
 import { RefreshJwtStrategy } from './strategies/refresh-jwt.strategy';
-import { RolesEntity } from '../roles/entities/roles.entity';
+import { RoleEntity } from '../role/entities/role.entity';
+import { AdminJwtStrategy } from '../../common/strategies/admin-jwt.strategy';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, RolesEntity]), UserModule], // UserModule을 imports 배열에 추가
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UserModule], // UserModule을 imports 배열에 추가
   controllers: [AuthController],
   providers: [
     AuthService,
     JwtService,
     UserService,
     JwtStrategy,
+    AdminJwtStrategy,
     RefreshJwtStrategy,
   ],
 })

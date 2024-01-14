@@ -24,8 +24,14 @@ export class HttpResponseInterceptor<T>
       map((data) => {
         const httpResponse = context.switchToHttp().getResponse();
         const statusCode = httpResponse.statusCode;
+        const timestamp = new Date();
 
-        return new ApiResponse(statusCode, ApiMessages.SUCCESS, data);
+        return new ApiResponse(
+          statusCode,
+          ApiMessages.SUCCESS,
+          data,
+          timestamp,
+        );
       }),
     );
   }

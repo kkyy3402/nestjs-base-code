@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MemoController } from './memo.controller';
 import { MemoService } from './memo.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MemoEntity } from './entities/Memo.entity';
+import { MemoEntity } from './entities/memo.entity';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Module({

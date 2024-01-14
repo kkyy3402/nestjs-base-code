@@ -40,7 +40,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(jwtPayload, {
-      expiresIn: '1s',
+      expiresIn: '3h',
       secret: process.env.JWT_SECRET,
     });
 

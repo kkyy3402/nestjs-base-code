@@ -6,8 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { MemoEntity } from '../../memo/entities/Memo.entity';
-import { RolesEntity } from '../../roles/entities/roles.entity';
+import { MemoEntity } from '../../memo/entities/memo.entity';
+import { RoleEntity } from '../../role/entities/role.entity';
 
 @Entity('tb_users')
 export class UserEntity {
@@ -26,7 +26,7 @@ export class UserEntity {
   @OneToMany(() => MemoEntity, (memo) => memo.user, { cascade: ['remove'] })
   memos: MemoEntity[];
 
-  @ManyToMany(() => RolesEntity, { eager: true })
+  @ManyToMany(() => RoleEntity, { eager: true })
   @JoinTable()
-  roles: RolesEntity[];
+  roles: RoleEntity[];
 }

@@ -3,9 +3,7 @@ import { UserModule } from './modules/user/user.module';
 import { MemoModule } from './modules/memo/memo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JwtStrategy } from './common/strategies/jwt.strategy';
-import { RolesModule } from './modules/roles/roles.module';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -22,7 +20,7 @@ import { RolesModule } from './modules/roles/roles.module';
     UserModule,
     MemoModule,
     AuthModule,
-    RolesModule,
+    RoleModule,
   ],
 })
 export class AppModule {}

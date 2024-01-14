@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RolesEntity } from './entities/roles.entity';
+import { RoleEntity } from './entities/role.entity';
 import { Repository } from 'typeorm';
 import { roleNames } from '../../common/constants';
 
 @Injectable()
-export class RolesService {
+export class RoleService {
   constructor(
-    @InjectRepository(RolesEntity)
-    private roleRepository: Repository<RolesEntity>,
+    @InjectRepository(RoleEntity)
+    private roleRepository: Repository<RoleEntity>,
   ) {
     this.init();
   }
@@ -19,7 +19,7 @@ export class RolesService {
       const roleExists = await this.roleRepository.findOneBy({ roleName });
 
       if (!roleExists) {
-        const role = new RolesEntity();
+        const role = new RoleEntity();
         role.roleName = roleName;
         await this.roleRepository.save(role);
       }

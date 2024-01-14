@@ -1,6 +1,6 @@
 import { MemoDto } from '../../memo/dtos/memo.dto';
 import { UserEntity } from '../entities/user.entity';
-import { RoleDto } from '../../roles/dtos/role.dto';
+import { RoleDto } from '../../role/dtos/role.dto';
 
 export class UserDto {
   id?: number;

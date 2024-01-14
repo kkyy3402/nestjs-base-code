@@ -25,7 +25,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       typeof exceptionResponse === 'string'
         ? exceptionResponse
         : (exceptionResponse as any).message || ApiMessages.UNKNOWN;
-
-    response.status(status).json(new ApiResponse(status, errorMessage, null));
+    const timestamp = new Date();
+    response
+      .status(status)
+      .json(new ApiResponse(status, errorMessage, null, timestamp));
   }
 }

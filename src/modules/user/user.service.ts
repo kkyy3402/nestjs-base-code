@@ -6,7 +6,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDto } from './dtos/user.dto';
 import * as bcrypt from 'bcrypt';
-import { RolesEntity } from '../roles/entities/roles.entity';
+import { RoleEntity } from '../role/entities/role.entity';
 import { roles } from '../../common/constants';
 
 @Injectable()
@@ -14,8 +14,8 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-    @InjectRepository(RolesEntity)
-    private rolesEntityRepository: Repository<RolesEntity>,
+    @InjectRepository(RoleEntity)
+    private rolesEntityRepository: Repository<RoleEntity>,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
