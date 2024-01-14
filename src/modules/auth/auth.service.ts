@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserRequestDto } from './dtos/login-user-request.dto';
 import { LoginUserResponseDto } from './dtos/login-user-response.dto';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found.exception';
-import { printLog } from '../../common/utils/log-util';
+import { printLog } from '../../common/utils/log.util';
 import { JwtPayload } from '../../common/interfaces/jwt-payload';
 import { UserDto } from '../user/dtos/user.dto';
 import { TokenStatus } from '../../common/constants';

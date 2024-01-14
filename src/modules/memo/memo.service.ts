@@ -8,6 +8,8 @@ import { UserEntity } from '../user/entities/user.entity';
 import { UpdateMemoDto } from './dtos/update-memo.dto';
 import { MemoDto } from './dtos/memo.dto';
 import { ItemNotExistException } from '../../common/exceptions/item-not-exist-exception';
+import { PaginationParams } from '../../common/interfaces/pagenation-params';
+import { applyPagination } from '../../common/utils/pagenation.util';
 
 @Injectable()
 export class MemoService {
@@ -38,8 +40,11 @@ export class MemoService {
   }
 
   // 모든 메모 조회
-  async findAllMemos(): Promise<MemoDto[]> {
-    const memoEntities = await this.memoRepository.find();
+  async findAllMemos(pagination: PaginationParams): Promise<MemoDto[]> {
+    const queryBuilder = this.memoRepository.createQueryBuilder('memo');
+    applyPagination(queryBuilder, pagination);
+
+    const memoEntities = await queryBuilder.getMany();
     return memoEntities.map((memoEntity) => MemoDto.fromEntity(memoEntity));
   }
 

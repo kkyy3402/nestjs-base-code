@@ -4,7 +4,7 @@ import { JwtPayload } from '../../../common/interfaces/jwt-payload';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
-import { getIsTokenExpired } from '../../../common/utils/token-util';
+import { getIsTokenExpired } from '../../../common/utils/token.util';
 
 const ACCESS_TOKEN_EXPIRE_LIMIT = 30 * 60; // 30분
 

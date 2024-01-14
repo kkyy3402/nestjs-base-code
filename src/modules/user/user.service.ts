@@ -8,6 +8,8 @@ import { UserDto } from './dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { RoleEntity } from '../role/entities/role.entity';
 import { roles } from '../../common/constants';
+import { PaginationParams } from '../../common/interfaces/pagenation-params';
+import { applyPagination } from '../../common/utils/pagenation.util';
 
 @Injectable()
 export class UserService {
@@ -49,10 +51,15 @@ export class UserService {
     return UserDto.fromEntity(userEntity);
   }
 
-  async findAllUsers(): Promise<UserDto[]> {
-    const userEntities = await this.userRepository.find({
-      relations: ['memos'],
-    });
+  async findAllUsers(pagination: PaginationParams): Promise<UserDto[]> {
+    // 쿼리 빌더를 사용하여 페이징과 관련 조건을 적용
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.memos', 'memo');
+
+    applyPagination(queryBuilder, pagination);
+
+    const userEntities = await queryBuilder.getMany();
     return userEntities.map((userEntity) => UserDto.fromEntity(userEntity));
   }
 

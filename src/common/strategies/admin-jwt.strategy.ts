@@ -4,7 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from '../interfaces/jwt-payload';
 import { UserService } from '../../modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { getIsTokenExpired } from '../utils/token-util';
+import { getIsTokenExpired } from '../utils/token.util';
 import { roles } from '../constants';
 
 @Injectable()

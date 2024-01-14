@@ -11,11 +11,13 @@ import {
 import { MemoService } from './memo.service';
 import { CreateMemoDto } from './dtos/create-memo.dto';
 import { UpdateMemoDto } from './dtos/update-memo.dto';
-import { printLog } from '../../common/utils/log-util';
+import { printLog } from '../../common/utils/log.util';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UserIdFromJwt } from '../../common/decorators/user-id-from-jwt';
 import { AdminAuthGuard } from '../../common/guards/admin-auth.guard';
+import { Pagination } from '../../common/decorators/pagenation';
+import { PaginationParams } from '../../common/interfaces/pagenation-params';
 
 @ApiTags('메모') // 이 부분에서 API 그룹의 제목을 설정합니다.
 @Controller('/api/v1/memos')
@@ -33,8 +35,8 @@ export class MemoController {
 
   @Get()
   @UseGuards(AdminAuthGuard)
-  async getAllMemos() {
-    return this.memoService.findAllMemos();
+  async getAllMemos(@Pagination() pagination: PaginationParams) {
+    return this.memoService.findAllMemos(pagination);
   }
 
   @Get(':id')

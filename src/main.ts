@@ -6,7 +6,6 @@ import { swaggerConfig } from './common/config/swagger.config';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { HttpResponseInterceptor } from './common/interceptors/http-response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
-import { printLog } from './common/utils/log-util';
 
 dotenv.config();
 

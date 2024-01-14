@@ -36,10 +36,11 @@ npm run start:prod
 ```
 
 ### TODO
- 
+
 - [x] jwt에서 userId 가져오는 Decorator 작성
 - [x] 공통 ApiResponse json response 주도록 코드 작성
 - [x] jwt Guard 작성 (기본, Admin용)
+- [x] 페이징 처리
 - [ ] 각 에러별 custom 에러 코드 작성
 - [ ] 소셜 로그인(카카오)
 - [ ] 소셜 로그인(구글)
