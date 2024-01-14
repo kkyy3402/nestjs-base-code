@@ -1,17 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { UserIdFromJwt } from '../../common/decorators/user-id-from-jwt';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
