@@ -28,7 +28,7 @@ export class HttpResponseInterceptor<T>
 
         return new ApiResponse(
           statusCode,
-          ApiMessages.SUCCESS,
+          ApiMessages.SUCCESS.message,
           data,
           timestamp,
         );

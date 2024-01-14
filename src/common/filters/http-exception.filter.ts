@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '../interfaces/api-response';
 import { ApiMessages } from '../constants';
+import { ApiMessage } from '../interfaces/api-message';
 
 /**
  * 모든 HTTP 예외에 대해 표준화된 응답 형식을 제공하는 예외 필터.
@@ -19,15 +20,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const status = exception.getStatus();
-    const exceptionResponse = exception.getResponse();
-
-    const errorMessage =
-      typeof exceptionResponse === 'string'
-        ? exceptionResponse
-        : (exceptionResponse as any).message || ApiMessages.UNKNOWN;
+    const exceptionResponse = exception.getResponse() as ApiMessage;
     const timestamp = new Date();
-    response
-      .status(status)
-      .json(new ApiResponse(status, errorMessage, null, timestamp));
+
+    const apiResponse = new ApiResponse(
+      exceptionResponse.code ?? ApiMessages.UNKNOWN.code,
+      exceptionResponse.message ?? ApiMessages.UNKNOWN.message,
+      null,
+      timestamp,
+    );
+
+    response.status(status).json(apiResponse);
   }
 }

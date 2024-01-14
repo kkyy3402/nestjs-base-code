@@ -5,6 +5,7 @@ import { JwtPayload } from '../interfaces/jwt-payload';
 import { UserService } from '../../modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { getIsTokenExpired } from '../utils/token.util';
+import { TokenExpiredException } from '../exceptions/token-expired.exception';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -29,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     //토큰이 만료된 경우
     const isTokenExpired = getIsTokenExpired(payload.exp);
     if (isTokenExpired) {
-      throw new UnauthorizedException('토큰이 만료되었습니다.');
+      throw new TokenExpiredException();
     }
 
     //토큰 안의 내용 확인
